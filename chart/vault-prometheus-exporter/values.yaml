@@ -1,0 +1,82 @@
+# Default values for vault-prometheus-exporter.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+env:
+  - name: VAULT_ADDR
+    value: ""
+  - name: VAULT_ROLE
+    value: ""
+  - name: VAULT_MOUNT_POINT
+    value: ""
+
+image:
+  repository: ghcr.io/dbschenker/vault-prometheus-exporter
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+port: 8080
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # allowPrivilegeEscalation: false
+  # privileged: false
+  # runAsNonRoot: true
+  # capabilities:
+  #   drop:
+  #     - ALL
+
+service:
+  enabled: false
+  type: ClusterIP
+  port: 8080
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+livenessProbe:
+  httpGet:
+    path: /status
+    port: 8080
+    timeoutSeconds: 30
+    periodSeconds: 60
+readinessProbe: {}
+  # httpGet:
+  #   path: /status
+  #   port: 8080
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
