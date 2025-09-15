@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "vault-prometheus-exporter.fullname" . }}-test-connection"
+  labels:
+    {{- include "vault-prometheus-exporter.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "vault-prometheus-exporter.fullname" . }}:{{ .Values.port }}']
+  restartPolicy: Never
