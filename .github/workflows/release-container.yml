@@ -34,10 +34,25 @@ jobs:
         with:
           images: ${{ matrix.ghcr-image }}
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.13
+
+      - name: Install dependencies
+        run: |
+          pip install -r app/requirements.txt
+          pip install -r app/tests/requirements.txt
+
+      - name: Run tests
+        run: |
+          export PYTHONPATH=$(pwd)
+          pytest -v app/tests/
+      
       - name: Build Docker image
         uses: docker/build-push-action@v6
         with:
-          context: ${{ matrix.image }}
+          context: .
           file: ${{ matrix.dockerfile }}
           push: false
           tags: ${{ matrix.ghcr-image }}:${{ github.event.release.name }}
@@ -53,7 +68,7 @@ jobs:
       - name: Push
         uses: docker/build-push-action@v6
         with:
-          context: ${{ matrix.image }}
+          context: .
           file: ${{ matrix.dockerfile }}
           push: true
           tags: ${{ matrix.ghcr-image }}:${{ github.event.release.name }}

@@ -70,7 +70,7 @@ jobs:
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
         uses: docker/build-push-action@v6
         with:
-          context: ${{ matrix.image }}
+          context: .
           file: ${{ matrix.dockerfile }}
           push: true
           tags: ${{ matrix.ghcr-image }}:latest
