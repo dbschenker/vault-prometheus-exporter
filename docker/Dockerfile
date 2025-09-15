@@ -5,6 +5,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 USER root
 
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
+
 #### copy application
 COPY app /opt/app
 
