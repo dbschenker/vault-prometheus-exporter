@@ -16,7 +16,7 @@ jobs:
         include:
           - image: vault-prometheus-exporter
             dockerfile: docker/Dockerfile
-            ghcr-image: ghcr.io/${{ github.repository }}/vault-prometheus-exporter
+            ghcr-image: ghcr.io/${{ github.repository }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
